@@ -16,11 +16,16 @@ class Order extends Model
 
     public function carriers()
     {
-        return $this->belongsTo(carriers::class);
+        return $this->belongsTo(Carrier::class);
     }
 
     public function users()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
 }
