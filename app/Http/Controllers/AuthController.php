@@ -127,5 +127,36 @@ class AuthController extends Controller
         }
     }
 
+    public function getProfile()
+    {   
+        return response()->json(auth()->user()); //data del token
+    }
+
+    
+    public function logout()
+    {
+        try{
+
+            Log::info("Logging out session");
+
+            $token = auth();
+            JWTAuth::invalidate($token);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'User logged out successfully'
+            ]);
+
+        } catch (\Exception $exception) {
+
+            Log::error("Error logging out: " . $exception->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, the user cannot be logged out'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);  //status 500
+        }
+    }
+
 }
 

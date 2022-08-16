@@ -20,5 +20,10 @@ Route::get('/', function () {return ['Bienvenido a mi api'];});
 //no token required
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::get('/getUsers', [AuthController::class, 'getAllUsers']);
+
+//routes for users with token
+Route::group(["middleware" => "jwt.auth"] , function() {
+    Route::get('/myProfile', [AuthController::class, 'getProfile']);
+    Route::post('/logout', [AuthController::class, 'logout']); 
+});
