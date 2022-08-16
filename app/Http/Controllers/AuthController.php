@@ -101,5 +101,31 @@ class AuthController extends Controller
         }
     }
 
+    public function getAllUsers(){
+        try {
+            
+            $users = User::query()->get()->toArray();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Users retrieved successfully',
+                    'data' => $users
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error retrieving users'.$exception->getMessage()
+                ],
+                500
+            );
+        }
+    }
+
 }
 
