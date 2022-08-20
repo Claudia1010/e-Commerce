@@ -94,4 +94,31 @@ class UserController extends Controller
             );
         }
     }
+
+    public function getAllUsers()
+    {
+        try {
+            Log::info('Getting all users');
+            $users = User::all();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Users retrieved successfully',
+                    'data' => $users
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            Log::error("Error retrieving users " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error retrieving users'
+                ],
+                500
+            );
+        }
+    }
 }

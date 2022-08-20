@@ -34,5 +34,6 @@ Route::group(["middleware" => "jwt.auth"] , function() {
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/promoteToAdmin/{id}', [UserController::class, 'userToAdmin']);
     Route::post('/degradeToUser/{id}', [UserController::class, 'adminToUser']);
+    Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
 }); 
 
