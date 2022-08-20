@@ -61,4 +61,70 @@ class CategoryController extends Controller
         }
     }
 
+    public function updateCategoryById(Request $request, $id){
+    
+        try {
+
+            Log::info('Updating category');
+            
+            $adminId = auth()->user()->id;
+           
+            if (!$adminId) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'User not found'
+                    ],
+                    404
+                );
+            }
+
+            $category = Category::find($id);
+            
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255', 'min:3'],
+                'description' => ['required']
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => $validator->errors()
+                    ],
+                    400
+                );
+            }
+
+            $categoryName = $request->input('name');
+
+            $categoryDescription = $request->input('description');
+
+            $category->name = $categoryName;
+
+            $category->description = $categoryDescription;
+
+            $category->save();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Category updated',
+                    'data' => $category
+                ],
+                201
+            );
+        } catch (\Exception $exception) {
+
+            Log::error("Error updating category: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error updating category'
+                ],
+                500
+            );
+        }
+    }
 }
