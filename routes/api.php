@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
@@ -44,4 +45,7 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::delete('/deleteCategoryById/{id}', [CategoryController::class, 'deleteCategoryById']);
 }); 
 
+Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
+    Route::post('/addProduct', [ProductController::class, 'addProduct']);
+}); 
 
