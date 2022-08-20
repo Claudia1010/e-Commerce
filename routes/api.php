@@ -41,6 +41,7 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/createCategory', [CategoryController::class, 'createCategory']);
     Route::put('/updateCategoryById/{id}', [CategoryController::class, 'updateCategoryById']);
+    Route::delete('/deleteCategoryById/{id}', [CategoryController::class, 'deleteCategoryById']);
 }); 
 
 

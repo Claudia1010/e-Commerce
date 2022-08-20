@@ -127,4 +127,58 @@ class CategoryController extends Controller
             );
         }
     }
+
+    public function deleteCategoryById($categoryId){
+
+        try {
+        
+            Log::info('Deleting category');
+
+            $adminId = auth()->user()->id;
+           
+            if (!$adminId) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Admin not found'
+                    ],
+                    404
+                );
+            }
+
+            $category = Category::find($categoryId);
+
+            if (!$category) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => "Missing category"
+                    ]
+                );
+            }
+
+            //If adminId and the channel specified with the Id, are okey, proceed with the deletion
+            $category->delete();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Category deleted'
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            Log::error("Error deleting category: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error deleting category'
+                ],
+                500
+            );
+        }
+    }
 }
