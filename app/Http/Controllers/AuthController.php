@@ -19,7 +19,7 @@ class AuthController extends Controller
             Log::info('User register');
 
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
+                'full_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6',
                 'address' => 'required|string|max:255',
@@ -132,7 +132,7 @@ class AuthController extends Controller
         return response()->json(auth()->user()); //data del token
     }
 
-    
+
     public function logout()
     {
         try{
@@ -158,5 +158,69 @@ class AuthController extends Controller
         }
     }
 
+    
+    public function updateProfile(Request $request){
+        try {
+
+            Log::info(" Update profile ");
+
+            $user_id = auth()->user()->id;
+
+            $user = User::query()->find($user_id);
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'string|max:255',
+                'email' => 'string|email|max:255|unique:users',
+                'password' => 'string|min:8',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => $validator->errors()
+                    ],
+                    400
+                );
+            }
+
+            $name = $request->input("name");
+            $email = $request->input("email");
+            $password = $request->input("password");
+
+            if (isset($name)) {
+                $user->name = $name;
+            }
+
+            if (isset($password)) {
+                $user->password = bcrypt($password);
+            }
+
+            if (isset($email)) {
+                $user->email = $email;
+            }
+
+            $user->save();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'User profile updated'
+                ],
+                201
+            );
+        } catch (\Exception $exception) {
+
+            Log::error("Error updating profile: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error updating profile'
+                ],
+                500
+            );
+        }
+    }
 }
 
