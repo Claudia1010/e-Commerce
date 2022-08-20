@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,8 @@ Route::group(["middleware" => "jwt.auth"] , function() {
     Route::delete('/deleteProfile', [AuthController::class, 'deleteProfile']);
 });
 
+Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
+    Route::post('/promoteToAdmin/{id}', [UserController::class, 'userToAdmin']);
+    Route::post('/degradeToUser/{id}', [UserController::class, 'adminToUser']);
+}); 
 
