@@ -48,7 +48,6 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/addProduct', [ProductController::class, 'addProduct']);
     Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
-
-    
+    Route::delete('/deleteProductById/{id}', [ProductController::class, 'deleteProductById']);  
 }); 
 

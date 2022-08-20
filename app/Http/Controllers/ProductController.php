@@ -175,4 +175,57 @@ class ProductController extends Controller
             );
         }
     }
+
+    public function deleteProductById($productId){
+
+        try {
+        
+            Log::info('Deleting product');
+
+            $adminId = auth()->user()->id;
+           
+            if (!$adminId) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Admin not found'
+                    ],
+                    404
+                );
+            }
+
+            $product = Product::find($productId);
+
+            if (!$product) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => "Missing product"
+                    ]
+                );
+            }
+
+            $product->delete();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Product deleted'
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            Log::error("Error deleting product: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error deleting product'
+                ],
+                500
+            );
+        }
+    }
 }

@@ -157,7 +157,6 @@ class CategoryController extends Controller
                 );
             }
 
-            //If adminId and the channel specified with the Id, are okey, proceed with the deletion
             $category->delete();
 
             return response()->json(
