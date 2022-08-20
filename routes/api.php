@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
@@ -21,7 +22,6 @@ Route::get('/', function () {return ['Bienvenido a mi api'];});
 //no token required
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/getUsers', [AuthController::class, 'getAllUsers']);
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
@@ -31,9 +31,15 @@ Route::group(["middleware" => "jwt.auth"] , function() {
     Route::delete('/deleteProfile', [AuthController::class, 'deleteProfile']);
 });
 
+//routes with admin token
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/promoteToAdmin/{id}', [UserController::class, 'userToAdmin']);
     Route::post('/degradeToUser/{id}', [UserController::class, 'adminToUser']);
     Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
 }); 
+
+Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
+    Route::post('/createCategory', [CategoryController::class, 'createCategory']);
+}); 
+
 
