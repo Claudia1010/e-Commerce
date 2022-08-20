@@ -34,7 +34,7 @@ class AuthController extends Controller
             }
     
             $user = User::create([
-                'full_name' => $request->get('name'),
+                'full_name' => $request->get('full_name'),
                 'email' => $request->get('email'),
                 'password' => bcrypt($request->password),
                 'address' =>  $request->get('address'),
@@ -217,6 +217,37 @@ class AuthController extends Controller
                 [
                     'success' => false,
                     'message' => 'Error updating profile'
+                ],
+                500
+            );
+        }
+    }
+
+    public function deleteProfile() {
+        try {
+
+            Log::info(' Delete profile ');
+
+            $user_id = auth()->user()->id;
+
+            $user = User::query()->find($user_id);
+
+            $user->delete();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'User deleted'
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error deleting user'
                 ],
                 500
             );
