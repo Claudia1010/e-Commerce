@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('payment_method_id');
-            $table->unsignedBigInteger('carrier_id');
+            $table->unsignedBigInteger('payment_method_id')->nullable();
+            $table->unsignedBigInteger('carrier_id')->nullable();
             $table->double('ammount');
             $table->date('order_date');
             $table->string('order_email')->nullable();

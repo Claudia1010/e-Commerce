@@ -163,7 +163,7 @@ class AuthController extends Controller
             $password = $request->input("password");
 
             if (isset($name)) {
-                $user->name = $name;
+                $user->full_name = $name;
             }
 
             if (isset($password)) {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
@@ -29,8 +30,14 @@ Route::group(["middleware" => "jwt.auth"] , function() {
     Route::get('/myProfile', [AuthController::class, 'getProfile']);
     Route::post('/logout', [AuthController::class, 'logout']); 
     Route::put('/updateProfile', [AuthController::class, 'updateProfile']);
-    Route::delete('/deleteProfile', [AuthController::class, 'deleteProfile']);
+    Route::delete('/deleteProfile', [AuthController::class, 'deleteProfile']); 
 });
+
+Route::group(["middleware" => "jwt.auth"] , function() {
+    Route::post('/addOrder', [OrderController::class, 'addOrder']);
+    Route::delete('/deleteOrderById/{id}', [OrderController::class, 'deleteOrderById']);
+}); 
+
 
 //routes with admin token
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
@@ -49,5 +56,5 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/addProduct', [ProductController::class, 'addProduct']);
     Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
     Route::delete('/deleteProductById/{id}', [ProductController::class, 'deleteProductById']);  
-}); 
+});  
 

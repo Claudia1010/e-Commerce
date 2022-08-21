@@ -48,16 +48,6 @@ class ProductController extends Controller
 
             $product = new Product();
             
-            $categoryId = $request->input("category_id");
-            $productName = $request->input("name");
-            $productArtist = $request->input("artist");
-            $productYear = $request->input("year");
-            $productPrice = $request->input("price");
-            $productDescription = $request->input("description");
-            $productImage = $request->input("image");
-            $productStock = $request->input("stock");
-            $productUpload = $request->input("create_date");
-            
             $product->category_id = $categoryId;
             $product->name = $productName;
             $product->artist = $productArtist;
