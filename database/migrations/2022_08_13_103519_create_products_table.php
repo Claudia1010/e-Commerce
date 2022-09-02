@@ -23,7 +23,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image');
             $table->integer('stock');
-            $table->date('create_date');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); 
