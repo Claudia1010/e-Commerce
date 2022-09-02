@@ -36,7 +36,10 @@ class OrderController extends Controller
                 'order_date' => ['required', 'date'],
                 'order_email' => ['required', 'string'],
                 'order_address' => ['required', 'string'],
-                'status' => ['required', 'boolean']
+                // 'status' => ['required', 'boolean']
+                'price' => ['required', 'string'],
+                'quantity' => ['required', 'integer'],
+                'product_id' => ['required', 'integer']
             ]);
 
             if ($validator->fails()) {
@@ -56,8 +59,8 @@ class OrderController extends Controller
             $orderDate = $request->input("order_date");
             $orderEmail = $request->input("order_email");
             $orderAddress = $request->input("order_address");
-            $status = $request->input("status");
-
+            $status = false;
+            
             $order = new Order();
             
             $order->user_id = $userId;
@@ -68,8 +71,16 @@ class OrderController extends Controller
             $order->order_email = $orderEmail;
             $order->order_address = $orderAddress;
             $order->status = $status;
-            
+
             $order->save();
+
+            //add product to order_product
+            $productPrice = $request->input("price");
+            $productQuantity = $request->input("quantity");
+            $orderId = $order->id;
+
+            //atacar a la tabla orderProduct para guardar el registro del producto del pedido
+            $productId = $request->input("product_id");
 
             return response()->json(
                 [

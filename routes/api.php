@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Recuperar todos los orders, para poder ver su estado. (ADMIN)
+// Recuperar los orders de un usuario. (para que un usuario pueda ver sus pedidos.
+// Cambiar el estado de un pedido. En tu caso como lo has hecho el estado es un booleano, pues para pasarlo de false a true. Este enpoint solo lo podria hacer un admin.
+
 Route::get('/', function () {return ['Bienvenido a mi api'];});
 
 //no token required
