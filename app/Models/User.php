@@ -23,9 +23,8 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'address',
-        'default_shipping_address',
         'city',
-        'phone',
+        'phone'
     ];
 
     /**
@@ -37,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
-
+ 
     /**
      * The attributes that should be cast.
      *

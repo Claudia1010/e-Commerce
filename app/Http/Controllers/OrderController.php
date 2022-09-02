@@ -26,17 +26,11 @@ class OrderController extends Controller
                 );
             }
 
-            
-
             $validator = Validator::make($request->all(), [
                 'user_id' => ['required', 'integer'],
                 'payment_method_id' => ['required', 'integer'],
                 'carrier_id' => ['required', 'integer'],
                 'ammount' => ['required'],
-                'order_date' => ['required', 'date'],
-                'order_email' => ['required', 'string'],
-                'order_address' => ['required', 'string'],
-                // 'status' => ['required', 'boolean']
                 'price' => ['required', 'string'],
                 'quantity' => ['required', 'integer'],
                 'product_id' => ['required', 'integer']
@@ -56,9 +50,6 @@ class OrderController extends Controller
             $paymentMethodId = $request->input("payment_method_id");
             $carrierId = $request->input("carrier_id");
             $ammount = $request->input("ammount");
-            $orderDate = $request->input("order_date");
-            $orderEmail = $request->input("order_email");
-            $orderAddress = $request->input("order_address");
             $status = false;
             
             $order = new Order();
@@ -67,9 +58,6 @@ class OrderController extends Controller
             $order->payment_method_id = $paymentMethodId;
             $order->carrier_id = $carrierId;
             $order->ammount = $ammount;
-            $order->order_date = $orderDate;
-            $order->order_email = $orderEmail;
-            $order->order_address = $orderAddress;
             $order->status = $status;
 
             $order->save();

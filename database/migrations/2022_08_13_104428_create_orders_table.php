@@ -19,9 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->unsignedBigInteger('carrier_id')->nullable();
             $table->double('ammount');
-            $table->date('order_date');
-            $table->string('order_email')->nullable();
-            $table->string('order_address')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
 
