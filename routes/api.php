@@ -19,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Recuperar todos los orders, para poder ver su estado. (ADMIN)
-// Recuperar los orders de un usuario. (para que un usuario pueda ver sus pedidos.
-// Cambiar el estado de un pedido. En tu caso como lo has hecho el estado es un booleano, pues para pasarlo de false a true. Este enpoint solo lo podria hacer un admin.
+// Cambiar el estado de un pedido (booleano) pasarlo de false a true. endpoint de  admin.
 
 Route::get('/', function () {return ['Bienvenido a mi api'];});
 
@@ -38,16 +36,21 @@ Route::group(["middleware" => "jwt.auth"] , function() {
 });
 
 Route::group(["middleware" => "jwt.auth"] , function() {
+    Route::get('/myOrders', [OrderController::class, 'myOrders']);
     Route::post('/addOrder', [OrderController::class, 'addOrder']);
     Route::delete('/deleteOrderById/{id}', [OrderController::class, 'deleteOrderById']);
 }); 
-
 
 //routes with admin token
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/promoteToAdmin/{id}', [UserController::class, 'userToAdmin']);
     Route::post('/degradeToUser/{id}', [UserController::class, 'adminToUser']);
     Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
+}); 
+
+Route::group(["middleware" => ["jwt.auth",  "isAdmin"]] , function() {
+    Route::get('/getAllOrders', [OrderController::class, 'getAllOrders']);
+   
 }); 
 
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {

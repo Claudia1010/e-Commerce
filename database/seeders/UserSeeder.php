@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'id' => '1',
                 'full_name' => 'Claudia Christensen',
                 'email' => 'claudia@gmail.com',
-                'password' => '1234',
+                'password' => bcrypt('1234'),
                 'address' => 'siempreviva 123',
                 'city' => 'Springfield',
                 'phone' => '01645362748'
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'id' => '2',
                 'full_name' => 'Daniel',
                 'email' => 'daniel@gmail.com',
-                'password' => '1234',
+                'password' => bcrypt('1234'),
                 'address' => 'valencia 123',
                 'city' => 'Valencia',
                 'phone' => '3463632748'
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
                 'id' => '3',
                 'full_name' => 'Ana',
                 'email' => 'ana@gmail.com',
-                'password' => '1234',
+                'password' => bcrypt('1234'),
                 'address' => 'andalucia 123',
                 'city' => 'Sevilla',
                 'phone' => '344432748'

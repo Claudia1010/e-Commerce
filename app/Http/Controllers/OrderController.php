@@ -91,6 +91,53 @@ class OrderController extends Controller
         }
     }
 
+    public function myOrders()
+    {
+        try {
+
+            Log::info("Getting Orders from the user");
+
+            $userId = auth()->user()->id;
+
+            $orders = Order::query()
+            ->where('user_id', '=', $userId)
+            ->get()
+            ->toArray();
+
+            
+            if (!$orders) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => "You don't have any order yet"
+                    ],
+                    404
+                );
+            };
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => "Getting orders from user ".$userId,
+                    'data' => $orders
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            Log::error("Error getting orders: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => "Error getting orders from user ".$userId
+                ],
+                500
+            );
+        }
+    }
+
     public function deleteOrderById($orderId){
 
         try {
@@ -144,4 +191,31 @@ class OrderController extends Controller
         }
     }
 
+    public function getAllOrders()
+    {
+        try {
+            Log::info('Getting all orders');
+            $orders = Order::all();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Orders retrieved successfully',
+                    'data' => $orders
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            Log::error("Error retrieving orders " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error retrieving orders'
+                ],
+                500
+            );
+        }
+    }
+    
 }
