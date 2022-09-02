@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Cambiar el estado de un pedido (booleano) pasarlo de false a true. endpoint de  admin.
-
 Route::get('/', function () {return ['Bienvenido a mi api'];});
 
 //no token required

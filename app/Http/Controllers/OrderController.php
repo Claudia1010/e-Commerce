@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
@@ -33,7 +34,7 @@ class OrderController extends Controller
                 'ammount' => ['required'],
                 'price' => ['required', 'string'],
                 'quantity' => ['required', 'integer'],
-                'product_id' => ['required', 'integer']
+                'product_ids' => ['required', 'array']
             ]);
 
             if ($validator->fails()) {
@@ -67,8 +68,23 @@ class OrderController extends Controller
             $productQuantity = $request->input("quantity");
             $orderId = $order->id;
 
-            //atacar a la tabla orderProduct para guardar el registro del producto del pedido
-            $productId = $request->input("product_id");
+            //attach to orderProduct table para guardar el registro del producto del pedido
+            $productIds = $request->input("product_ids");
+
+            foreach ($productIds as $productId) {
+                $product = Product::find($productId);
+ 
+                if (!$product) {
+                    return [
+                        'success' => false,
+                        'message' => "The product doesn't exist"
+                    ];
+                }
+                $order->products()->attach($productId, [
+                    'price' => $productPrice,
+                    'quantity' => $productQuantity
+                ]);
+            }
 
             return response()->json(
                 [
@@ -218,4 +234,6 @@ class OrderController extends Controller
         }
     }
     
+    
+
 }
