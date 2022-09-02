@@ -48,7 +48,8 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
 
 Route::group(["middleware" => ["jwt.auth",  "isAdmin"]] , function() {
     Route::get('/getAllOrders', [OrderController::class, 'getAllOrders']);
-   
+    Route::put('/changeOrderStatus/{id}', [OrderController::class, 'changeOrderStatus']);
+    
 }); 
 
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {

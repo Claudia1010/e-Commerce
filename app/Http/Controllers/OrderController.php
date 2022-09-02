@@ -234,6 +234,59 @@ class OrderController extends Controller
         }
     }
     
-    
+    public function changeOrderStatus($orderId){
+
+        try {
+        
+            Log::info('Changing order status');
+
+            $adminId = auth()->user()->id;
+           
+            if (!$adminId) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Admin not found'
+                    ],
+                    404
+                );
+            }
+
+            $order = Order::find($orderId);
+
+            if (!$orderId) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => "Missing order"
+                    ]
+                );
+            }
+
+            $order->status = true;
+            $order->save();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Order status changed',
+                    'data'=> $order
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            Log::error("Error changing order status: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error changing order status'
+                ],
+                500
+            );
+        }
+    }
 
 }
