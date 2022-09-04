@@ -66,9 +66,8 @@ class OrderController extends Controller
             //add product to order_product
             $productPrice = $request->input("price");
             $productQuantity = $request->input("quantity");
-            $orderId = $order->id;
+            // $orderId = $order->id;
 
-            //attach to orderProduct table para guardar el registro del producto del pedido
             $productIds = $request->input("product_ids");
 
             foreach ($productIds as $productId) {

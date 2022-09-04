@@ -55,7 +55,7 @@ class CategorySeeder extends Seeder
             [
                 'id' => '5',
                 'name' => 'SURREALISMO',
-                'description' => ' El Surrealismo es un movimiento de vanguardia artística creado en 1924 tras el Manifiesto Surrealista de André Breton, guía espiritual del mismo. Su tema principal era el mundo de los sueños. En técnicas usaban el automatismo, que consiste en dibujar o escribir sin aparente lógica, dejando a la mano libre; la desorientación reflexiva, por la que asociaban objetos extraños, surgidos libremente del subconsciente, en espacios lógicos y realistas.
+                'description' => 'Desde 1924 a 1966, el Surrealismo es un movimiento de vanguardia artística creado en 1924 tras el Manifiesto Surrealista de André Breton, guía espiritual del mismo. Su tema principal era el mundo de los sueños. En técnicas usaban el automatismo, que consiste en dibujar o escribir sin aparente lógica, dejando a la mano libre; la desorientación reflexiva, por la que asociaban objetos extraños, surgidos libremente del subconsciente, en espacios lógicos y realistas.
                     Artistas: Marc Chagall, Salvador Dalí, Rene Magritte, Joan Miró, etc.'
             ]
         );
