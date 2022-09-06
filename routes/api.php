@@ -24,6 +24,7 @@ Route::get('/', function () {return ['Bienvenido a mi api'];});
 //no token required
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/products', [ProductController::class, 'getProducts']);
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
@@ -36,6 +37,7 @@ Route::group(["middleware" => "jwt.auth"] , function() {
 Route::group(["middleware" => "jwt.auth"] , function() {
     Route::get('/myOrders', [OrderController::class, 'myOrders']);
     Route::post('/addOrder', [OrderController::class, 'addOrder']);
+    // Route::put('/updateOrderById/{id}', [OrderController::class, 'updateOrderById']);
     Route::delete('/deleteOrderById/{id}', [OrderController::class, 'deleteOrderById']);
 }); 
 

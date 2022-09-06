@@ -9,6 +9,33 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    public function getProducts()
+    {
+        try {
+            Log::info('Getting all products');
+            $products = Product::all();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Products retrieved successfully',
+                    'data' => $products
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            Log::error("Error retrieving products " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error retrieving products'
+                ],
+                500
+            );
+        }
+    }
+
     public function addProduct(Request $request)
     {
         try {

@@ -131,11 +131,11 @@ class ProductSeeder extends Seeder
             [
                 'id' => '9',
                 'category_id' => '1',
-                'name' => "El beso V",
+                'name' => "Chica ahogándose",
                 'artist' => 'Roy Lichtenstein',
                 'year' => '1963',
                 'price' => '1500.00',
-                'description' => 'oleo y pintura esmalte, 171.6 x 169.5 cm',
+                'description' => 'oleo y pintura esmalte, 171.6 cm x 169.5 cm',
                 'image' => 'https://upload.wikimedia.org/wikipedia/en/d/df/Roy_Lichtenstein_Drowning_Girl.jpg', 
                 'stock' => '10'
             ]
