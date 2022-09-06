@@ -180,4 +180,31 @@ class CategoryController extends Controller
             );
         }
     }
+
+    public function getCategories()
+    {
+        try {
+            Log::info('Getting all categories');
+            $categories = Category::all();
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Categories retrieved successfully',
+                    'data' => $categories
+                ]
+            );
+
+        } catch (\Exception $exception) {
+            Log::error("Error retrieving categories " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error retrieving categories'
+                ],
+                500
+            );
+        }
+    }
 }

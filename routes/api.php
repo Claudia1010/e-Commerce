@@ -25,6 +25,8 @@ Route::get('/', function () {return ['Bienvenido a mi api'];});
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products', [ProductController::class, 'getProducts']);
+Route::get('/categories', [CategoryController::class, 'getCategories']);
+
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
