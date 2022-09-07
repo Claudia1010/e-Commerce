@@ -23,7 +23,6 @@ class AuthController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6',
                 'address' => 'required|string|max:255',
-                'default_shipping_address' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'phone'=> 'required|string|max:255',
             ]);
@@ -38,7 +37,6 @@ class AuthController extends Controller
                 'email' => $request->get('email'),
                 'password' => bcrypt($request->password),
                 'address' =>  $request->get('address'),
-                'default_shipping_address' =>  $request->get('default_shipping_address'),
                 'city' =>  $request->get('city'),
                 'phone'=>  $request->get('phone'),
             ]);

@@ -26,7 +26,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/products', [ProductController::class, 'getProducts']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
-
+Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
+Route::post('/addOrder', [OrderController::class, 'addOrder']);
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
@@ -38,8 +39,7 @@ Route::group(["middleware" => "jwt.auth"] , function() {
 
 Route::group(["middleware" => "jwt.auth"] , function() {
     Route::get('/myOrders', [OrderController::class, 'myOrders']);
-    Route::post('/addOrder', [OrderController::class, 'addOrder']);
-    // Route::put('/updateOrderById/{id}', [OrderController::class, 'updateOrderById']);
+    
     Route::delete('/deleteOrderById/{id}', [OrderController::class, 'deleteOrderById']);
 }); 
 
@@ -65,6 +65,7 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/addProduct', [ProductController::class, 'addProduct']);
     Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
+    
     Route::delete('/deleteProductById/{id}', [ProductController::class, 'deleteProductById']);  
 });  
 
