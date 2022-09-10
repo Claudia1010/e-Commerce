@@ -106,7 +106,7 @@ class OrderController extends Controller
         }
     }
 
-    public function myOrders()
+    public function getOrders()
     {
         try {
 
@@ -116,6 +116,7 @@ class OrderController extends Controller
 
             $orders = Order::query()
             ->where('user_id', '=', $userId)
+            ->with('products')
             ->get()
             ->toArray();
 
