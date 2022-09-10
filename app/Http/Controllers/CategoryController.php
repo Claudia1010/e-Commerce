@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
-    public function createCategory(Request $request)
+    public function addCategory(Request $request)
     {
         try {
             Log::info('Creating category');

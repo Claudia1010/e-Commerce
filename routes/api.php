@@ -18,38 +18,24 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+// no token required
 Route::get('/', function () {return ['Bienvenido a mi api'];});
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::group(["middleware" => "jwt.auth"] , function() {
-    Route::post('/logout', [AuthController::class, 'logout']); 
-    Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::post('/me', [AuthController::class, 'me']); 
-});
-
-
-// no token required
 Route::post('/register', [AuthController::class, 'register']);
-
 Route::get('/products', [ProductController::class, 'getProducts']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
-Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
-Route::post('/addOrder', [OrderController::class, 'addOrder']);
-Route::post('/addProduct', [ProductController::class, 'addProduct']);
-Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
-
-
+    Route::post('/logout', [AuthController::class, 'logout']); 
+    Route::get('/getProfile', [AuthController::class, 'getProfile']); 
     Route::put('/updateProfile', [AuthController::class, 'updateProfile']);
     Route::delete('/deleteProfile', [AuthController::class, 'deleteProfile']); 
 });
 
 Route::group(["middleware" => "jwt.auth"] , function() {
-    Route::get('/myOrders', [OrderController::class, 'myOrders']);
-    
+    Route::get('/getOrders', [OrderController::class, 'getOrders']);
+    Route::post('/addOrder', [OrderController::class, 'addOrder']);
     Route::delete('/deleteOrderById/{id}', [OrderController::class, 'deleteOrderById']);
 }); 
 
@@ -67,7 +53,7 @@ Route::group(["middleware" => ["jwt.auth",  "isAdmin"]] , function() {
 }); 
 
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
-    Route::post('/createCategory', [CategoryController::class, 'createCategory']);
+    Route::post('/addCategory', [CategoryController::class, 'addCategory']);
     Route::put('/updateCategoryById/{id}', [CategoryController::class, 'updateCategoryById']);
     Route::delete('/deleteCategoryById/{id}', [CategoryController::class, 'deleteCategoryById']);
 }); 
@@ -75,7 +61,7 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
 Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/addProduct', [ProductController::class, 'addProduct']);
     Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
-    
     Route::delete('/deleteProductById/{id}', [ProductController::class, 'deleteProductById']);  
+    Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
 });  
 
