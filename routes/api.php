@@ -20,19 +20,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {return ['Bienvenido a mi api'];});
-
-//no token required
-Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::group(["middleware" => "jwt.auth"] , function() {
+    Route::post('/logout', [AuthController::class, 'logout']); 
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/me', [AuthController::class, 'me']); 
+});
+
+
+// no token required
+Route::post('/register', [AuthController::class, 'register']);
+
 Route::get('/products', [ProductController::class, 'getProducts']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
 Route::post('/addOrder', [OrderController::class, 'addOrder']);
+Route::post('/addProduct', [ProductController::class, 'addProduct']);
+Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
-    Route::get('/myProfile', [AuthController::class, 'getProfile']);
-    Route::post('/logout', [AuthController::class, 'logout']); 
+
+
     Route::put('/updateProfile', [AuthController::class, 'updateProfile']);
     Route::delete('/deleteProfile', [AuthController::class, 'deleteProfile']); 
 });

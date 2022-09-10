@@ -32,8 +32,8 @@ class OrderController extends Controller
                 'payment_method_id' => ['required', 'integer'],
                 'carrier_id' => ['required', 'integer'],
                 'ammount' => ['required'],
-                'price' => ['required', 'string'],
-                'quantity' => ['required', 'integer'],
+                'prices' => ['required', 'array'],
+                'quantities' => ['required', 'array'],
                 'product_ids' => ['required', 'array']
             ]);
 
@@ -64,13 +64,13 @@ class OrderController extends Controller
             $order->save();
 
             //add product to order_product
-            $productPrice = $request->input("price");
-            $productQuantity = $request->input("quantity");
+            $productPrices = $request->input("prices");
+            $productQuantities = $request->input("quantities");
             // $orderId = $order->id;
 
             $productIds = $request->input("product_ids");
 
-            foreach ($productIds as $productId) {
+            foreach ($productIds as $key => $productId) {
                 $product = Product::find($productId);
  
                 if (!$product) {
@@ -80,8 +80,8 @@ class OrderController extends Controller
                     ];
                 }
                 $order->products()->attach($productId, [
-                    'price' => $productPrice,
-                    'quantity' => $productQuantity
+                    'price' => $productPrices[$key],
+                    'quantity' => $productQuantities[$key]
                 ]);
             }
 

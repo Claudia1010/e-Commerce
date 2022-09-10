@@ -1,5 +1,88 @@
 <?php
 
+// namespace App\Http\Controllers;
+
+// use Illuminate\Support\Facades\Auth;
+// use App\Http\Controllers\Controller;
+
+// class AuthController extends Controller
+// {
+//     /**
+//      * Create a new AuthController instance.
+//      *
+//      * @return void
+//      */
+//     public function __construct()
+//     {
+//         $this->middleware('auth:api', ['except' => ['login']]);
+//     }
+
+//     /**
+//      * Get a JWT via given credentials.
+//      *
+//      * @return \Illuminate\Http\JsonResponse
+//      */
+//     public function login()
+//     {
+//         $credentials = request(['email', 'password']);
+
+//         if (! $token = auth()->attempt($credentials)) {
+//             return response()->json(['error' => 'Unauthorized'], 401);
+//         }
+
+//         return $this->respondWithToken($token);
+//     }
+
+//     /**
+//      * Get the authenticated User.
+//      *
+//      * @return \Illuminate\Http\JsonResponse
+//      */
+//     public function me()
+//     {
+//         return response()->json(auth()->user());
+//     }
+
+//     /**
+//      * Log the user out (Invalidate the token).
+//      *
+//      * @return \Illuminate\Http\JsonResponse
+//      */
+//     public function logout()
+//     {
+//         auth()->logout();
+
+//         return response()->json(['message' => 'Successfully logged out']);
+//     }
+
+//     /**
+//      * Refresh a token.
+//      *
+//      * @return \Illuminate\Http\JsonResponse
+//      */
+//     public function refresh()
+//     {
+//         return $this->respondWithToken(auth()->refresh());
+//     }
+
+//     /**
+//      * Get the token array structure.
+//      *
+//      * @param  string $token
+//      *
+//      * @return \Illuminate\Http\JsonResponse
+//      */
+//     protected function respondWithToken($token)
+//     {
+//         return response()->json([
+//             'access_token' => $token,
+//             'token_type' => 'bearer',
+//             'expires_in' => auth()->factory()->getTTL() * 60,
+//             'user' => auth()->user()
+//         ]);
+//     }
+// }
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -8,6 +91,8 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -70,19 +155,27 @@ class AuthController extends Controller
 
             Log::info('Login user');
 
-            $input = $request->only('email', 'password');
+            $credentials = $request->only('email', 'password');
             $jwt_token = null;
     
-            if (!$jwt_token = JWTAuth::attempt($input)) {
+            if (!$jwt_token = JWTAuth::attempt($credentials)) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Invalid Email or Password',
-                ], Response::HTTP_UNAUTHORIZED);
+                    ], 401
+                );
             }
-    
+            
+            $user = auth()->user();
+            $role = $user->roles;
+
             return response()->json([
                 'success' => true,
                 'token' => $jwt_token,
+                'access_token' => $jwt_token,
+                'token_type' => 'bearer',
+                'user' => $user,
+                'role' => $role
             ]);
 
         } catch (\Exception $exception) {
@@ -99,9 +192,18 @@ class AuthController extends Controller
         }
     }
 
-    public function getProfile()
+    public function me()
     {   
-        return response()->json(auth()->user()); //data del token
+        $user = auth()->user();
+        $role = $user->roles;
+
+        return response()->json([
+            'success' => true,
+            'token_type' => 'bearer',
+            'user' => $user,
+            'role' => $role
+        ]);
+            
     }
 
 
@@ -224,6 +326,7 @@ class AuthController extends Controller
                 500
             );
         }
+        
     }
-}
+} 
 
