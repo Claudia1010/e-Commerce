@@ -211,7 +211,10 @@ class OrderController extends Controller
     {
         try {
             Log::info('Getting all orders');
-            $orders = Order::all();
+
+            $orders = Order::with('products')
+            ->get()
+            ->toArray();
 
             return response()->json(
                 [

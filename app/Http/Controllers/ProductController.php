@@ -49,8 +49,7 @@ class ProductController extends Controller
                 'price' => ['required'],
                 'description' => ['required'],
                 'image' => ['required', 'string'],
-                'stock' => ['required', 'integer'],
-                'create_date' => ['required', 'date'],
+                'stock' => ['required', 'integer']
             ]);
 
             if ($validator->fails()) {
@@ -71,7 +70,6 @@ class ProductController extends Controller
             $productDescription = $request->input("description");
             $productImage = $request->input("image");
             $productStock = $request->input("stock");
-            $productUpload = $request->input("create_date");
 
             $product = new Product();
             
@@ -83,7 +81,6 @@ class ProductController extends Controller
             $product->description = $productDescription;
             $product->image = $productImage;
             $product->stock = $productStock;
-            $product->create_date = $productUpload;
 
             $product->save();
 
@@ -129,14 +126,14 @@ class ProductController extends Controller
             $product = Product::find($id);
             
             $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:255', 'min:3'],
-                'artist' => ['required', 'string', 'max:255', 'min:3'],
-                'year' => ['required', 'integer'],
-                'price' => ['required'],
-                'description' => ['required'],
-                'image' => ['required', 'string'],
-                'stock' => ['required', 'integer'],
-                'create_date' => ['required', 'date'],
+                'name' => ['string', 'max:255', 'min:3'],
+                'artist' => ['string', 'max:255', 'min:3'],
+                'year' => ['integer'],
+                'price' => ['integer'],
+                'description' => ['string'],
+                'image' => ['string'],
+                'stock' => ['integer'],
+                'category_id' => ['required']
             ]);
 
             if ($validator->fails()) {
@@ -157,7 +154,7 @@ class ProductController extends Controller
             $productDescription = $request->input("description");
             $productImage = $request->input("image");
             $productStock = $request->input("stock");
-            $productUpload = $request->input("create_date");
+            
 
             $product->category_id = $categoryId;
             $product->name = $productName;
@@ -167,7 +164,6 @@ class ProductController extends Controller
             $product->description = $productDescription;
             $product->image = $productImage;
             $product->stock = $productStock;
-            $product->create_date = $productUpload;
 
             $product->save();
 
