@@ -2,7 +2,7 @@
 
 # Final Project: Artech E-Commerce
 
-This is the 7th and final :clap GeeksHubs project. The aim of this personal project is to develop an Art Replicas E-Commerce with the backend built with Laravel and the frontend using React. The website allows to the client to sign in, add to the cart multiple products, increase, remove them and pay for them in a simulated payment platform. The backoffice dashboard will let the admin to add new products to the site, edit and delete them, and also see all the orders submitted by the clients and change the delivery status of them.
+This is the 7th and final  👏  GeeksHubs project. The aim of this personal project is to develop an Art Replicas E-Commerce with the backend built with Laravel and the frontend using React. The website allows to the client to sign in, add to the cart multiple products, increase, remove them and pay for them in a simulated payment platform. The backoffice dashboard will let the admin to add new products to the site, edit and delete them, and also see all the orders submitted by the clients and change the delivery status of them.
 
 ## User Guide
 
