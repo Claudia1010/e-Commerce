@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Middleware\Cors as MiddlewareCors;
+
 use Closure;
 use Illuminate\Http\Request;
 
