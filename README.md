@@ -81,7 +81,7 @@ The root for all the endpoints will be:
 
 LOCAL: http://localhost:8000/api
 
-HEROKU: [https://git.heroku.com/ch-laravel-react-e-commerce.git]
+HEROKU: [https://ch-laravel-react-e-commerce.herokuapp.com/api]
 
 
 Endpoint-function links: The method to enter in Postman is specified, and what we must enter after the root to 
