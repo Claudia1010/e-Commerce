@@ -24,6 +24,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/products', [ProductController::class, 'getProducts']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
+Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {
@@ -44,6 +45,7 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/promoteToAdmin/{id}', [UserController::class, 'userToAdmin']);
     Route::post('/degradeToUser/{id}', [UserController::class, 'adminToUser']);
     Route::get('/getAllUsers', [UserController::class, 'getAllUsers']);
+    //get order by status
 }); 
 
 Route::group(["middleware" => ["jwt.auth",  "isAdmin"]] , function() {
@@ -62,6 +64,6 @@ Route::group(["middleware" => ["jwt.auth", "isAdmin"]] , function() {
     Route::post('/addProduct', [ProductController::class, 'addProduct']);
     Route::put('/updateProductById/{id}', [ProductController::class, 'updateProductById']);
     Route::delete('/deleteProductById/{id}', [ProductController::class, 'deleteProductById']);  
-    Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
+    //get product by name
 });  
 

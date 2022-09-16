@@ -9,13 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    
-    protected function quantity(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->products->count(),
-        );
-    }
 
      public function payment_methods()
     {

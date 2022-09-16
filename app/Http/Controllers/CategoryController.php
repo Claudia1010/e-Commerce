@@ -68,16 +68,6 @@ class CategoryController extends Controller
             Log::info('Updating category');
             
             $adminId = auth()->user()->id;
-           
-            if (!$adminId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'User not found'
-                    ],
-                    404
-                );
-            }
 
             $category = Category::find($id);
             
@@ -135,16 +125,6 @@ class CategoryController extends Controller
             Log::info('Deleting category');
 
             $adminId = auth()->user()->id;
-           
-            if (!$adminId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'Admin not found'
-                    ],
-                    404
-                );
-            }
 
             $category = Category::find($categoryId);
 

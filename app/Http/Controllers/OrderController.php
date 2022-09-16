@@ -17,24 +17,15 @@ class OrderController extends Controller
         
             $userId = auth()->user()->id;
            
-            if (!$userId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'User not found'
-                    ],
-                    404
-                );
-            }
-
             $validator = Validator::make($request->all(), [
                 'user_id' => ['required', 'integer'],
                 'payment_method_id' => ['required', 'integer'],
                 'carrier_id' => ['required', 'integer'],
                 'ammount' => ['required'],
-                'prices' => ['required', 'array'],
-                'quantities' => ['required', 'array'],
-                'product_ids' => ['required', 'array']
+                'products' => 'required|array',
+                'products.*.product_id' => 'required',
+                'products.*.price' => 'required',
+                'products.*.quantity' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -63,15 +54,11 @@ class OrderController extends Controller
 
             $order->save();
 
-            //add product to order_product
-            $productPrices = $request->input("prices");
-            $productQuantities = $request->input("quantities");
-            // $orderId = $order->id;
 
-            $productIds = $request->input("product_ids");
+            $products = $request->input("products");
 
-            foreach ($productIds as $key => $productId) {
-                $product = Product::find($productId);
+            foreach ($products as $product) {
+                $product = Product::find($product['product_id']);
  
                 if (!$product) {
                     return [
@@ -79,9 +66,11 @@ class OrderController extends Controller
                         'message' => "The product doesn't exist"
                     ];
                 }
-                $order->products()->attach($productId, [
-                    'price' => $productPrices[$key],
-                    'quantity' => $productQuantities[$key]
+
+                $order->products()->attach($product['product_id'],
+                [
+                    'price' => $product['price'],
+                    'quantity' => $product['quantity']
                 ]);
             }
 
