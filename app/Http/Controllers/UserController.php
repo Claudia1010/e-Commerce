@@ -22,16 +22,6 @@ class UserController extends Controller
 
             $user = User::find($userId);
 
-            if (!$user) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'User not found'
-                    ],
-                    404
-                );
-            }
-
             $user->roles()->attach(self::ROLE_ADMIN);
 
             return response()->json(
@@ -62,17 +52,7 @@ class UserController extends Controller
             Log::info("Degrading admin to user");
 
             $user = User::find($userId);
-
-            if(!$user){
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'User not found'
-                    ],
-                    404
-                );
-            }
-
+            
             $user->roles()->detach(self::ROLE_ADMIN);
 
             return response()->json(

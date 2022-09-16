@@ -110,18 +110,6 @@ class ProductController extends Controller
         try {
 
             Log::info('Updating product');
-            
-            $adminId = auth()->user()->id;
-           
-            if (!$adminId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'User not found'
-                    ],
-                    404
-                );
-            }
 
             $product = Product::find($id);
             
@@ -195,18 +183,6 @@ class ProductController extends Controller
         
             Log::info('Deleting product');
 
-            $adminId = auth()->user()->id;
-           
-            if (!$adminId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'Admin not found'
-                    ],
-                    404
-                );
-            }
-
             $product = Product::find($productId);
 
             if (!$product) {
@@ -248,18 +224,6 @@ class ProductController extends Controller
         
             Log::info('Getting product by Id');
 
-            // $adminId = auth()->user()->id;
-           
-            // if (!$adminId) {
-            //     return response()->json(
-            //         [
-            //             'success' => false,
-            //             'message' => 'Admin not found'
-            //         ],
-            //         404
-            //     );
-            // }
-
             $product = Product::find($productId);
 
             if (!$product) {
@@ -294,4 +258,48 @@ class ProductController extends Controller
         }
     }
 
+    public function searchProduct($query){
+
+        try {
+        
+            Log::info('Getting product by ');
+
+            $product = Product::where('name', 'like', '%'.$query.'%')
+            ->orWhere('artist', 'like', '%'.$query.'%')
+            ->orWhere('year', 'like', '%'.$query.'%')
+            ->orWhere('description', 'like', '%'.$query.'%')
+            ->get();
+
+            if (!$product) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => "Missing product"
+                    ]
+                );
+            }
+
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'Product retrieved',
+                    'data' => $product
+                ],
+                200
+            );
+
+        } catch (\Exception $exception) {
+
+            Log::error("Error getting product: " . $exception->getMessage());
+
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error getting product'
+                ],
+                500
+            );
+        }
+    }
+    
 }

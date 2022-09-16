@@ -67,8 +67,6 @@ class CategoryController extends Controller
 
             Log::info('Updating category');
             
-            $adminId = auth()->user()->id;
-
             $category = Category::find($id);
             
             $validator = Validator::make($request->all(), [
@@ -123,8 +121,6 @@ class CategoryController extends Controller
         try {
         
             Log::info('Deleting category');
-
-            $adminId = auth()->user()->id;
 
             $category = Category::find($categoryId);
 

@@ -25,6 +25,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/products', [ProductController::class, 'getProducts']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 Route::get('/getProductById/{id}', [ProductController::class, 'getProductById']);
+Route::get('/searchProduct/{query}', [ProductController::class, 'searchProduct']);
+
 
 //routes for users with token
 Route::group(["middleware" => "jwt.auth"] , function() {

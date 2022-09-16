@@ -150,16 +150,6 @@ class OrderController extends Controller
             Log::info('Deleting order');
 
             $userId = auth()->user()->id;
-           
-            if (!$userId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'User not found'
-                    ],
-                    404
-                );
-            }
 
             $order = Order::find($orderId);
 
@@ -168,6 +158,15 @@ class OrderController extends Controller
                     [
                         'success' => false,
                         'message' => "Missing order"
+                    ]
+                );
+            }
+
+            if ($order->user_id != $userId) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Invalid User'
                     ]
                 );
             }
@@ -231,18 +230,6 @@ class OrderController extends Controller
         try {
         
             Log::info('Changing order status');
-
-            $adminId = auth()->user()->id;
-           
-            if (!$adminId) {
-                return response()->json(
-                    [
-                        'success' => false,
-                        'message' => 'Admin not found'
-                    ],
-                    404
-                );
-            }
 
             $order = Order::find($orderId);
 
