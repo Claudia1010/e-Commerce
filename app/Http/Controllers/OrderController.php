@@ -23,9 +23,9 @@ class OrderController extends Controller
                 'carrier_id' => ['required', 'integer'],
                 'ammount' => ['required'],
                 'products' => 'required|array',
-                'products.*.product_id' => 'required',
-                'products.*.price' => 'required',
-                'products.*.quantity' => 'required'
+                 'products.*.product_id' => 'required',
+                 'products.*.price' => 'required',
+                 'products.*.quantity' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -58,16 +58,16 @@ class OrderController extends Controller
             $products = $request->input("products");
 
             foreach ($products as $product) {
-                $product = Product::find($product['product_id']);
+                $db_product = Product::find($product['product_id']);
  
-                if (!$product) {
+                if (!$db_product) {
                     return [
                         'success' => false,
                         'message' => "The product doesn't exist"
                     ];
                 }
-
-                $order->products()->attach($product['product_id'],
+                
+                $order->products()->attach($db_product->id,
                 [
                     'price' => $product['price'],
                     'quantity' => $product['quantity']
